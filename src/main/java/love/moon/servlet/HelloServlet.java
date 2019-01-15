@@ -10,11 +10,19 @@ import javax.servlet.http.*;
  */
 public class HelloServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response)
-            throws ServletException, IOException {
+                         HttpServletResponse response) throws IOException {
+        String output="Hello Servlet";
+        //Session Test
+        if(request.getSession().getAttribute("count") == null){
+            request.getSession().setAttribute("count", 0);
+            response.getWriter().write(output+0);
+        }else{
+            int a = Integer.parseInt(request.getSession().getAttribute("count").toString());
+            request.getSession().setAttribute(output+",count", ++a);
+            response.getWriter().write(a+"");
+        }
 
-        System.out.print("Hello Servlet");
 
-        response.getWriter().println("Hello Servlet");
+        response.getWriter().println(output);
     }
 }

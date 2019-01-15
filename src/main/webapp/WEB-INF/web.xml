@@ -5,6 +5,17 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 
+  <filter>
+    <filter-name>securityFilter</filter-name>
+    <filter-class>love.moon.filter.SecurityFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>securityFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+
+
   <servlet>
     <servlet-name>HelloServlet</servlet-name>
     <servlet-class>love.moon.servlet.HelloServlet</servlet-class>
