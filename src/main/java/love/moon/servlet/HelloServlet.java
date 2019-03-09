@@ -11,6 +11,7 @@ import javax.servlet.http.*;
 public class HelloServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws IOException {
+        System.out.println("comming request");
         String output="Hello Servlet";
         //Session Test
         if(request.getSession().getAttribute("count") == null){
@@ -22,6 +23,11 @@ public class HelloServlet extends HttpServlet {
             response.getWriter().write(a+"");
         }
 
+        try {
+            Thread.sleep(1000*20l);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         response.getWriter().println(output);
     }
