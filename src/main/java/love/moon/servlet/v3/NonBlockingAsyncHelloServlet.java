@@ -22,13 +22,17 @@ public class NonBlockingAsyncHelloServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         AsyncContext asyncContext = request.startAsync();
         ServletInputStream inputStream = request.getInputStream();
+        System.out.println("Thread " + Thread.currentThread().getName() + " will setReadListener");
         inputStream.setReadListener(new ReadListener() {
 
             @Override
-            public void onAllDataRead()   {
-                new Thread(() -> {
-                    new LongRunningProcess().run();
-
+            public void onAllDataRead() {
+                    System.out.println("Thread " + Thread.currentThread().getName() + " onAllDataRead ");
+                    try {
+                        Thread.sleep(1000 * 5l);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     try {
                         asyncContext.getResponse().getWriter().write("Hello World! nonBlockingThreadPoolAsync");
                     } catch (IOException e) {
@@ -37,7 +41,6 @@ public class NonBlockingAsyncHelloServlet extends HttpServlet {
 
                     asyncContext.complete();
 
-                }).start();
             }
 
             @Override
@@ -46,7 +49,8 @@ public class NonBlockingAsyncHelloServlet extends HttpServlet {
             }
 
             @Override
-            public void onDataAvailable()   {}
+            public void onDataAvailable() {
+            }
         });
 
 
