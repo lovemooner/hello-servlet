@@ -26,20 +26,28 @@ public class NonBlockingAsyncHelloServlet extends HttpServlet {
         inputStream.setReadListener(new ReadListener() {
 
             @Override
-            public void onAllDataRead() {
-                    System.out.println("Thread " + Thread.currentThread().getName() + " onAllDataRead ");
-                    try {
-                        Thread.sleep(1000 * 5l);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        asyncContext.getResponse().getWriter().write("Hello World! nonBlockingThreadPoolAsync");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            public void onAllDataRead() throws IOException {
+                System.out.println("Thread " + Thread.currentThread().getName() + " onAllDataRead ");
+                StringBuilder sb = new StringBuilder();
+                int len = -1;
+                byte bytes[] = new byte[8];
+                while (inputStream.isReady() && !inputStream.isFinished() && (len = inputStream.read(bytes)) != -1) {
+                    String data = new String(bytes, 0, len);
+                    sb.append(data);
+                }
+                System.out.println("Data read: " + sb.toString());
+                try {
+                    Thread.sleep(1000 * 5l);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    asyncContext.getResponse().getWriter().write("Hello World! nonBlockingThreadPoolAsync");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-                    asyncContext.complete();
+                asyncContext.complete();
 
             }
 
