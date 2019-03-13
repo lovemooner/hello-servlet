@@ -19,6 +19,10 @@ public class NonBlockingAsyncHelloServlet extends HttpServlet {
 
     private static ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 20, 5000L, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(100));
 
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req,resp);
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         AsyncContext asyncContext = request.startAsync();
         ServletInputStream inputStream = request.getInputStream();
