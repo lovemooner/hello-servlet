@@ -7,7 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+/**
+ * @author
+ */
 public class ServletDispatcher  extends HttpServlet {
+
+    @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws IOException {
         System.out.println("coming request");
@@ -29,6 +34,7 @@ public class ServletDispatcher  extends HttpServlet {
         response.getWriter().println(output);
     }
 
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
     }

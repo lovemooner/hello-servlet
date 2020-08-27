@@ -39,45 +39,16 @@
     <build>
         <finalName>servlet</finalName>
         <plugins>
-
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-dependency-plugin</artifactId>-->
-                <!--<version>3.1.1</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>copy-war</id>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>copy</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<artifactItems>-->
-                                <!--<artifactItem>-->
-                                    <!--<groupId>${project.groupId}</groupId>-->
-                                    <!--<artifactId>${project.artifactId}</artifactId>-->
-                                    <!--<version>${project.version}</version>-->
-                                    <!--<type>${project.packaging}</type>-->
-                                <!--</artifactItem>-->
-                            <!--</artifactItems>-->
-                            <!--&lt;!&ndash;指定war包保存地址&ndash;&gt;-->
-                            <!--<outputDirectory>/Users/ndong/tmp</outputDirectory>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-
-            <!--tomcat-->
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat8-maven-plugin</artifactId>
-                <version>3.0-r1756463</version>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.1</version>
                 <configuration>
                     <url>http://localhost:8080/manager/text</url>
                     <port>8080</port>
                     <path>/servlet</path>
                     <uriEncoding>UTF-8</uriEncoding>
-                    <server>tomcat8</server>
+                    <server>tomcat7</server>
                 </configuration>
             </plugin>
             <plugin>
