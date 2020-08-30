@@ -8,7 +8,7 @@ import javax.servlet.http.*;
  * @author: lovemooner
  * @Date: 2017/5/18 14:09
  */
-public class HelloServlet extends HttpServlet {
+public class Servlet100 extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request,

@@ -2,6 +2,7 @@ package http;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 
@@ -16,11 +17,11 @@ public class HttpTest {
 
     private static byte[] request = null;
 
-    private static String HOST="slc11fsp.us.oracle.com";
+    private static String HOST="127.0.0.1";
     static {
         StringBuffer temp = new StringBuffer();
-        temp.append("GET /servlet/HelloServlet HTTP/1.1\r\n");
-        temp.append("Host: slc11fsp.us.oracle.com:8080\r\n");
+        temp.append("GET /servlet/simpleAsync HTTP/1.1\r\n");
+        temp.append("Host: 127.0.0.1:8080\r\n");
         temp.append("Connection: keep-alive\r\n");
         temp.append("Cache-Control: max-age=0\r\n");
         temp.append("User-Agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.47 Safari/536.11\r\n");
@@ -34,10 +35,11 @@ public class HttpTest {
 
     public static void sendHttpRequest() throws Exception {
         try {
-
             final SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress(HOST, 8080));
-            final Charset charset = Charset.forName("GBK");// 创建GBK字符集
-            socketChannel.configureBlocking(false);//配置通道使用非阻塞模式
+            // 创建GBK字符集
+            final Charset charset = Charset.forName("UTF-8");
+            //配置通道使用非阻塞模式
+            socketChannel.configureBlocking(false);
 
             while (!socketChannel.finishConnect()) {
                 Thread.sleep(10);
@@ -47,19 +49,22 @@ public class HttpTest {
 
             int read = 0;
             boolean readed = false;
-            ByteBuffer buffer = ByteBuffer.allocate(1024);// 创建1024字节的缓冲
+            // 创建1024字节的缓冲
+            ByteBuffer buffer = ByteBuffer.allocate(1024);
             while ((read = socketChannel.read(buffer)) != -1) {
                 if (read == 0 && readed) {
-                    break;
+//                    break;
                 } else if (read == 0) {
                     continue;
                 }
-
                 buffer.flip();// flip方法在读缓冲区字节操作之前调用。
-                System.out.println(charset.decode(buffer));
+                String result=charset.decode(buffer).toString();
+                if(result!=null&&result.length()>0)
+                System.out.println(result);
                 // 使用Charset.decode方法将字节转换为字符串
                 buffer.clear();// 清空缓冲
                 readed = true;
+                Thread.sleep(500L);
             }
             System.out.println("----------------");
         } catch (Exception e) {
